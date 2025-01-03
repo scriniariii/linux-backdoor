@@ -1,2 +1,2 @@
 # linux-backdoor
-backdoor/reverse shell made in c
+simple backdoor/reverse shell made in c

